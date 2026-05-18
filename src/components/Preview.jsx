@@ -9,23 +9,31 @@ export default function Preview({ catalog, idx, onBack }) {
   const [loading, setLoading] = useState(true);
   const [contract, setContract] = useState(false);
 
-  // resolve every product, collect UNIQUE product IDs, and count dups
-  const { pids, pidCount } = useMemo(() => {
-    const all = catalog.categories
-      .flatMap((c) => c.products.map((p) => resolve(p.model, idx).pid))
-      .filter(Boolean);
+  /* Resolve every product. Collect ONE { pid, catalogNumber } per
+   * unique Product ID (models that share a pid price identically, so
+   * any one model number is enough). Also count how many times each
+   * pid appears so duplicates can be flagged in the table. */
+  const { items, pidCount } = useMemo(() => {
+    const seen = {};
     const count = {};
-    all.forEach((id) => (count[id] = (count[id] || 0) + 1));
-    return { pids: [...new Set(all)], pidCount: count };
+    catalog.categories.forEach((c) =>
+      c.products.forEach((p) => {
+        const r = resolve(p.model, idx);
+        if (!r.pid) return;
+        count[r.pid] = (count[r.pid] || 0) + 1;
+        if (!seen[r.pid]) seen[r.pid] = { pid: r.pid, catalogNumber: p.model };
+      })
+    );
+    return { items: Object.values(seen), pidCount: count };
   }, [catalog, idx]);
 
   const load = useCallback(() => {
     setLoading(true);
-    fetchEclipsePricing(pids, contract ? catalog.customer : null).then((m) => {
+    fetchEclipsePricing(items, contract ? catalog.customer : null).then((m) => {
       setPricing(m);
       setLoading(false);
     });
-  }, [pids, contract, catalog.customer]);
+  }, [items, contract, catalog.customer]);
 
   useEffect(() => {
     load();
