@@ -14,7 +14,8 @@ export const SEED = {
   name: "Ductless Equipment Catalog",
   subtitle: "Daikin Heat Pump Systems & Accessories",
   brand: "#003a70",
-  customer: "All Season Climate Pros — 46017",
+  customer: "All Season Climate Pros",
+  customerId: "46017",
   logo: null,
   categories: [
     {

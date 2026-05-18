@@ -29,11 +29,11 @@ export default function Preview({ catalog, idx, onBack }) {
 
   const load = useCallback(() => {
     setLoading(true);
-    fetchEclipsePricing(items, contract ? catalog.customer : null).then((m) => {
+    fetchEclipsePricing(items, contract ? catalog.customerId : null).then((m) => {
       setPricing(m);
       setLoading(false);
     });
-  }, [items, contract, catalog.customer]);
+  }, [items, contract, catalog.customerId]);
 
   useEffect(() => {
     load();

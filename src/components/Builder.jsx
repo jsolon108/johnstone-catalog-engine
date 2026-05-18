@@ -47,7 +47,8 @@ export default function Builder({ catalog, setCatalog, idx, onNext }) {
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label="Catalog name" value={catalog.name} onChange={(v) => set({ name: v })} />
           <Field label="Subtitle" value={catalog.subtitle} onChange={(v) => set({ subtitle: v })} />
-          <Field label="Customer / account" value={catalog.customer} onChange={(v) => set({ customer: v })} />
+          <Field label="Customer name" value={catalog.customer} onChange={(v) => set({ customer: v })} />
+          <Field label="Eclipse customer ID (number)" value={catalog.customerId || ""} onChange={(v) => set({ customerId: v })} />
           <div>
             <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">Brand color</label>
             <div className="flex items-center gap-2">
