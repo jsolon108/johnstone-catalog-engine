@@ -19,7 +19,7 @@
  * keep-alive agent, /Sessions login, and re-auth on an expired session.
  */
 
-const https = require("https");
+import https from "https";
 
 const ECLIPSE_BASE = "https://api.johnstonenyct.com:5000";
 const PRICE_BRANCH = process.env.ECLIPSE_PRICE_BRANCH || "FARM";
